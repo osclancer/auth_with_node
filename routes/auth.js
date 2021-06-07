@@ -9,7 +9,6 @@ const {
 const jwt = require('jsonwebtoken');
 
 // Validation
-
 router.post('/register', async (req, res) => {
     // Validate
     const { error } = registerValidation(req.body);
@@ -55,7 +54,10 @@ router.post('/login', async (req, res) => {
 
     // Create Token
 
-    const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
+    const token = jwt.sign(
+        { _id: user._id, name: user.name, email: user.email },
+        process.env.TOKEN_SECRET
+    );
 
     res.header('auth-token', token).send(token);
 });
